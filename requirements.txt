@@ -1,0 +1,7 @@
+streamlit
+google-generativeai
+google-adk
+plotly
+pandas
+sqlite-utils
+python-dotenv

@@ -1,0 +1,11 @@
+.env
+
+__pycache__/
+
+*.pyc
+
+database/study.db
+
+.venv/
+
+venv/
