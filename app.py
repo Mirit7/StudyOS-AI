@@ -1,5 +1,7 @@
 import streamlit as st
-from agents.planner_agent import create_study_plan
+from agents.coordinator_agent import CoordinatorAgent
+from agents.planner_agent import PlannerAgent
+coordinator = CoordinatorAgent()
 st.set_page_config(
     page_title="StudyOS AI",
     page_icon="🎓",
@@ -37,14 +39,22 @@ study_hours = st.number_input(
     value=4
 )
 
+# if st.button("Create Study Plan"):
+
 if st.button("Create Study Plan"):
 
-    plan = create_study_plan(
-        exam,
-        days_left,
-        study_hours
+    data = {
+        "exam": exam,
+        "days_left": days_left,
+        "study_hours": study_hours
+    }
+
+    plan = coordinator.execute(
+        "study_plan",
+        data
     )
 
+    st.markdown(plan)
     st.success("Study Plan Generated")
 
     for item in plan:

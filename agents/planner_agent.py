@@ -1,33 +1,22 @@
-def create_study_plan(exam, days_left, study_hours):
-    
-    plans = {
-        "JEE": [
-            "Physics",
-            "Chemistry",
-            "Mathematics"
-        ],
-        "NEET": [
-            "Physics",
-            "Chemistry",
-            "Biology"
-        ],
-        "UPSC": [
-            "History",
-            "Polity",
-            "Economics"
-        ]
-    }
+from tools.planner_tool import PlannerTool
 
-    subjects = plans.get(
-        exam,
-        ["General Studies"]
-    )
 
-    study_plan = []
+class PlannerAgent:
 
-    for i, subject in enumerate(subjects):
-        study_plan.append(
-            f"Week {i+1}: {subject}"
+    def __init__(self):
+
+        self.tool = PlannerTool()
+
+    def run(self, data: dict):
+
+        exam = data["exam"]
+        days_left = data["days_left"]
+        study_hours = data["study_hours"]
+
+        study_plan = self.tool.generate_plan(
+            exam,
+            days_left,
+            study_hours
         )
 
-    return study_plan
+        return study_plan

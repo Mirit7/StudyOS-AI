@@ -4,25 +4,10 @@ import google.generativeai as genai
 
 load_dotenv()
 
-genai.configure(
-    api_key=os.getenv("GEMINI_API_KEY")
-)
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-model = genai.GenerativeModel(
-    "gemini-2.5-flash"
-)
+model = genai.GenerativeModel("gemini-2.5-flash")
 
-response = model.generate_content(
-    """
-    Create a 30 day JEE preparation plan.
+response = model.generate_content("Say hello in one sentence.")
 
-    Include:
-    - Daily tasks
-    - Weekly milestones
-    - Revision schedule
-
-    Keep it concise.
-    """
-)
-
-print(response.text)
+print(response)
