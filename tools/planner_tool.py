@@ -1,104 +1,89 @@
 import os
+import json
 import google.generativeai as genai
 from dotenv import load_dotenv
 
 load_dotenv()
 
-API_KEY = os.getenv("GEMINI_API_KEY")
+genai.configure(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
 
-if not API_KEY:
-    raise ValueError("GEMINI_API_KEY not found in .env")
-
-genai.configure(api_key=API_KEY)
-
-MODEL_NAME = "gemini-2.5-flash"
-
-model = genai.GenerativeModel(MODEL_NAME)
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 
 class PlannerTool:
-    """
-    Planner Tool
-
-    Responsibilities:
-    - Build prompt
-    - Call Gemini
-    - Validate response
-    - Return study plan
-
-    This tool should ONLY communicate with Gemini.
-    Business logic belongs in PlannerAgent.
-    """
 
     def generate_plan(
         self,
         exam: str,
         days_left: int,
-        study_hours: int,
-    ) -> str:
+        study_hours: int
+    ):
 
         prompt = f"""
 You are an expert academic mentor.
 
-Your job is to generate a personalized study roadmap.
+Create a personalized study roadmap.
 
-Student Profile:
+Student Details:
 - Exam: {exam}
 - Days Remaining: {days_left}
 - Daily Study Hours: {study_hours}
 
-Requirements:
+Return ONLY valid JSON.
 
-1. Create a week-by-week study roadmap.
-2. Prioritize high-weightage topics.
-3. Include revision schedule.
-4. Recommend mock test frequency.
-5. Mention common mistakes to avoid.
-6. Keep the roadmap realistic.
-7. Format using clean Markdown.
+Format:
 
-Return ONLY the study plan.
+{{
+    Format:
+
+{{
+    "study_plan":[
+        "Week 1: Study Trigonometry",
+        "Week 2: Study Vectors",
+        "Week 3: Revision",
+        "Week 4: Mock Test"
+    ],
+
+    "today_topics":[
+        "Trigonometry",
+        "Vectors",
+        "Probability"
+    ]
+}}
+}}
+
+Rules:
+
+1. Return ONLY valid JSON.
+2. study_plan MUST be an array of strings.
+3. today_topics MUST be an array of strings.
+4. No markdown.
+5. No explanation.
+6. No ```json fences.
 """
 
         try:
 
             response = model.generate_content(prompt)
 
-            # No response returned
-            if not response.candidates:
-                raise RuntimeError(
-                    "Gemini returned no candidates."
-                )
+            text = response.text.strip()
 
-            candidate = response.candidates[0]
+            # Remove markdown fences if Gemini adds them
+            text = text.replace("```json", "")
+            text = text.replace("```", "")
+            text = text.strip()
 
-            if not candidate.content:
-                raise RuntimeError(
-                    "Candidate contains no content."
-                )
+            planner_output = json.loads(text)
 
-            if not candidate.content.parts:
-                raise RuntimeError(
-                    "Candidate contains no text parts."
-                )
-
-            text = "".join(
-                part.text
-                for part in candidate.content.parts
-                if hasattr(part, "text")
-            ).strip()
-
-            if not text:
-                raise RuntimeError(
-                    "Gemini returned empty text."
-                )
-
-            return text
+            return planner_output
 
         except Exception as e:
-            print(f"[PlannerTool] ERROR: {e}")
 
-            return (
-                "⚠️ Unable to generate a study plan at the moment.\n"
-                "Please try again later."
-            )
+            print("[PlannerTool]", e)
+
+            return {
+                "study_plan": "Unable to generate study plan.",
+                "today_topics": []
+            }

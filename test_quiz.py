@@ -1,9 +1,17 @@
-from tools.quiz_tool import generate_quiz
+from agents.quiz_agent import QuizAgent
 
-quiz = generate_quiz(
-    exam="JEE",
-    topic="Trigonometry",
-    num_questions=5
+agent = QuizAgent()
+
+quiz = agent.run(
+    {
+        "exam": "JEE",
+        "topics": [
+            "Trigonometry",
+            "Vectors"
+        ],
+        "difficulty": "Medium",
+        "num_questions": 5
+    }
 )
 
 print(quiz)

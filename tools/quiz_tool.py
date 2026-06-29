@@ -1,69 +1,78 @@
-from google import genai
 import os
+import json
+import google.generativeai as genai
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = genai.Client(
-    api_key=os.getenv("AQ.Ab8RN6IfxtBv_ylbOzhBNzxEuVcTLcur4-myOK7dwjeoYAco0Q")
+genai.configure(
+    api_key=os.getenv("GEMINI_API_KEY")
 )
 
-response = client.models.generate_content(
-    model="gemini-2.5-flash",
-    contents="Generate 5 JEE trigonometry questions"
-)
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 
+class QuizTool:
 
-def generate_quiz(
-    exam,
-    topic,
-    num_questions=5
-):
-    prompt = f"""
-    You are an expert competitive exam question setter.
+    def generate_quiz(
+        self,
+        exam: str,
+        topics: list,
+        difficulty: str = "Medium",
+        num_questions: int = 10,
+    ):
 
-    Exam: {exam}
-    Topic: {topic}
+        prompt = f"""
+You are an expert {exam} examiner.
 
-    Generate {num_questions} multiple-choice questions.
+Generate exactly {num_questions} multiple choice questions.
 
-    Requirements:
-    - Difficulty level appropriate for {exam}
-    - Four options (A, B, C, D)
-    - Include correct answer after each question
-    - Clear formatting
+Topics:
+{chr(10).join("- " + topic for topic in topics)}
 
-    Return ONLY valid JSON.
+Difficulty:
+{difficulty}
 
-    Format:
+Return ONLY valid JSON.
 
-    [
-    {
-        "question": "...",
+Format:
+
+[
+  {{
+    "topic": "...",
+    "question": "...",
+    "options": {{
         "A": "...",
         "B": "...",
         "C": "...",
-        "D": "...",
-        "answer": "A"
-    }
-    ]
-    """
+        "D": "..."
+    }},
+    "correct_answer": "...",
+    "explanation": "..."
+  }}
+  
+]
 
-    response = model.generate_content(prompt)
+DO NOT return markdown.
+DO NOT return ```json.
+Return only JSON.
+"""
 
-    return response.text
-# Return ONLY valid JSON.
+        try:
 
-# Format:
+            response = model.generate_content(prompt)
 
-# [
-#   {
-#     "question": "...",
-#     "A": "...",
-#     "B": "...",
-#     "C": "...",
-#     "D": "...",
-#     "answer": "A"
-#   }
-# ]
+            text = response.text.strip()
+
+# Sometimes Gemini returns ```json ... ```
+            text = text.replace("```json", "")
+            text = text.replace("```", "")
+            text = text.strip()
+
+            return json.loads(text)
+
+        except Exception as e:
+
+            print("[QuizTool]", e)
+
+            return []

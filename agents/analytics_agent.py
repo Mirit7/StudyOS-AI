@@ -1,21 +1,21 @@
-def evaluate_quiz(
-    correct_answers,
-    student_answers
-):
-    score = 0
+from tools.analytics_tool import AnalyticsTool
 
-    for correct, student in zip(
-        correct_answers,
-        student_answers
-    ):
-        if correct == student:
-            score += 1
 
-    return {
-        "score": score,
-        "total": len(correct_answers),
-        "accuracy": round(
-            score / len(correct_answers) * 100,
-            2
+class AnalyticsAgent:
+
+    def __init__(self):
+        # self.analytics = AnalyticsAgent()
+        self.tool = AnalyticsTool()
+
+    def run(self, data: dict):
+
+        quiz = data["quiz"]
+
+        student_answers = data["student_answers"]
+
+        report = self.tool.evaluate_quiz(
+            quiz,
+            student_answers
         )
-    }
+
+        return report
