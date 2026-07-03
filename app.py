@@ -1,5 +1,8 @@
+import matplotlib.pyplot as plt
 import streamlit as st
+
 from agents.coordinator_agent import CoordinatorAgent
+from tools.database_tool import DatabaseTool
 if "student_answers" not in st.session_state:
     st.session_state.student_answers = {}
 # ==========================================
@@ -10,7 +13,7 @@ st.set_page_config(
     page_icon="🎓",
     layout="wide"
 )
-
+history = DatabaseTool().get_last_reports(limit=100)
 # ==========================================
 # Coordinator
 # ==========================================
@@ -38,7 +41,40 @@ st.title("🎓 StudyOS AI")
 st.caption("Your Personal Multi-Agent Learning Coach")
 
 st.divider()
+from tools.database_tool import DatabaseTool
+db = DatabaseTool()
 
+history = db.get_last_reports(limit=100)
+
+total_quizzes = len(history)
+
+average_accuracy = round(
+    sum(row[4] for row in history) / len(history),
+    2
+) if history else 0
+
+best_accuracy = max(
+    [row[4] for row in history]
+) if history else 0
+
+col1, col2, col3 = st.columns(3)
+
+col1.metric(
+    "📚 Total Quizzes",
+    total_quizzes
+)
+
+col2.metric(
+    "🎯 Average Accuracy",
+    f"{average_accuracy}%"
+)
+
+col3.metric(
+    "🏆 Best Accuracy",
+    f"{best_accuracy}%"
+)
+
+st.divider()
 # ==========================================
 # User Inputs
 # ==========================================
@@ -99,7 +135,13 @@ if st.session_state.planner_output is not None:
 
     st.subheader("📅 Study Plan")
 
-    study_plan = st.session_state.planner_output["study_plan"]
+    study_plan = st.session_state.planner_output.get("study_plan")
+
+    if study_plan is None:
+
+        st.error("Planner did not return a study plan.")
+        st.write(st.session_state.planner_output)
+        st.stop()
 
     if isinstance(study_plan, list):
 
@@ -124,10 +166,7 @@ if st.session_state.planner_output is not None:
         index=1
     )
 
-    if st.button(
-        "📝 Start Today's Quiz",
-        use_container_width=True
-    ):
+    if st.button("📝 Start Today's Quiz", use_container_width=True):
 
         st.session_state.quiz = coordinator.execute(
             "generate_quiz",
@@ -143,6 +182,7 @@ if st.session_state.planner_output is not None:
         st.session_state.quiz_started = True
 
         st.rerun()
+
 # ==========================================
 # Display Quiz
 # ==========================================
@@ -218,8 +258,20 @@ if st.session_state.quiz_started and st.session_state.quiz:
                 "weak_topics": report["weak_topics"]
 
             }
-
         )
+        mentor_feedback = coordinator.execute(
+            "mentor_feedback",
+            {}
+        )
+        # st.session_state.report = report
+        # st.session_state.mentor_feedback = mentor_feedback
+
+        # st.rerun()
+
+        st.header("🤖 AI Mentor")
+
+        st.markdown(mentor_feedback)
+        
         st.divider()
         st.header("📖 Answer Review")
 
@@ -272,12 +324,16 @@ if st.session_state.quiz_started and st.session_state.quiz:
 
         else:
             st.info("No strong topics yet.")
-# print("=" * 80)
 
-# for i, q in enumerate(st.session_state.quiz):
+history = DatabaseTool().get_last_reports(limit=100)
 
-#     print(f"Question {i+1}")
+accuracies = [row[4] for row in history[::-1]]
 
-#     print(q)
+fig, ax = plt.subplots(figsize=(8, 3))
 
-#     print("=" * 80)
+ax.plot(accuracies, marker="o")
+
+ax.set_xlabel("Quiz Attempted")
+ax.set_ylabel("Accuracy")
+
+st.pyplot(fig)

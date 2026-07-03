@@ -2,6 +2,8 @@ from agents.planner_agent import PlannerAgent
 from agents.quiz_agent import QuizAgent
 from agents.analytics_agent import AnalyticsAgent
 from agents.memory_agent import MemoryAgent
+from agents.mentor_agent import MentorAgent
+
 class CoordinatorAgent:
 
     def __init__(self):
@@ -14,6 +16,8 @@ class CoordinatorAgent:
 
         self.memory = MemoryAgent()
 
+        self.mentor = MentorAgent()
+
         self.routes = {
 
             "study_plan": self.planner,
@@ -22,7 +26,9 @@ class CoordinatorAgent:
 
             "evaluate_quiz": self.analytics,
 
-            "save_report": self.memory
+            "save_report": self.memory,
+
+            "mentor_feedback": self.mentor
 
         }
 

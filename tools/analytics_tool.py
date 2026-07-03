@@ -10,9 +10,7 @@ class AnalyticsTool:
 
         wrong_questions = []
 
-        weak_topics = set()
-
-        strong_topics = set()
+        topic_stats = {}
 
         for i, question in enumerate(quiz):
 
@@ -21,19 +19,40 @@ class AnalyticsTool:
             user_answer = student_answers.get(i)
 
             topic = question.get("topic", "General")
-            
+
+            if topic not in topic_stats:
+
+                topic_stats[topic] = {
+                    "correct": 0,
+                    "wrong": 0
+                }
+
             if user_answer == correct_option:
+
                 score += 1
 
                 correct_questions.append(question)
 
-                strong_topics.add(topic)
+                topic_stats[topic]["correct"] += 1
 
             else:
 
                 wrong_questions.append(question)
 
-                weak_topics.add(topic)
+                topic_stats[topic]["wrong"] += 1
+
+        strong_topics = []
+        weak_topics = []
+
+        for topic, stats in topic_stats.items():
+
+            if stats["correct"] > stats["wrong"]:
+
+                strong_topics.append(topic)
+
+            elif stats["wrong"] > stats["correct"]:
+
+                weak_topics.append(topic)
 
         accuracy = 0
 
@@ -52,12 +71,13 @@ class AnalyticsTool:
 
             "accuracy": accuracy,
 
+            "strong_topics": strong_topics,
+
+            "weak_topics": weak_topics,
+
+            "topic_stats": topic_stats,
+
             "correct_questions": correct_questions,
 
-            "wrong_questions": wrong_questions,
-
-            "weak_topics": list(weak_topics),
-
-            "strong_topics": list(strong_topics)
-
+            "wrong_questions": wrong_questions
         }
