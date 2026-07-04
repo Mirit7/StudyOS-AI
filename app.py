@@ -680,3 +680,24 @@ st.markdown("""
 -  Multi-Agent Architecture
 -  Matplotlib
 """)
+
+st.info("""
+### ℹ️ Demo Information
+
+StudyOS AI is powered by Google Gemini 2.5 Flash (Free Tier).
+
+The application uses a Multi-Agent Architecture consisting of:
+
+• Coordinator Agent
+• Planner Agent
+• Quiz Agent
+• Analytics Agent
+• Memory Agent
+• Mentor Agent
+
+If AI generation is temporarily unavailable, Google may be enforcing free-tier API rate limits (HTTP 429).
+
+Please wait 30–60 seconds and try again.
+
+This does **not** indicate a problem with the application's architecture or implementation. All local features—including agent coordination, SQLite memory, analytics, and dashboard functionality—remain operational.
+""")

@@ -44,4 +44,11 @@ Write the response in Markdown.
 
             print("[MentorTool]", e)
 
-            return "Unable to generate mentor feedback."
+            if "429" in str(e):
+                return {
+                    "error": "🤖 AI Mentor is temporarily unavailable.\n\nPlease wait a moment and retry."
+                }
+
+            return {
+                "error": "Unable to generate mentor feedback."
+            }

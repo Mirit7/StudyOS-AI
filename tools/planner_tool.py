@@ -110,7 +110,11 @@ Rules:
 
             print("[PlannerTool]", e)
 
+            if "429" in str(e):
+                return {
+                    "error": "Gemini API is temporarily busy (Free Tier).\n\nPlease wait 30–60 seconds and try again."
+                }
+
             return {
-                "study_plan": "Unable to generate study plan.",
-                "today_topics": []
+                "error": "Unable to generate study plan."
             }

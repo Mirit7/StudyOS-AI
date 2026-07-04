@@ -75,4 +75,11 @@ Return only JSON.
 
             print("[QuizTool]", e)
 
-            return []
+            if "429" in str(e):
+                return {
+                    "error": "🤖 Gemini API quota reached.\n\nPlease wait about a minute and try again."
+                }
+
+            return {
+                "error": "Unable to generate quiz."
+            }       
