@@ -237,4 +237,6 @@ A complete walkthrough of StudyOS AI demonstrating:
 <img src="screenshots/agentreview.png" width="95%">
 </p>
 
+> **Note**
+> The repository includes a pre-populated SQLite database (`study.db`) with sample quiz history so reviewers can immediately explore the analytics dashboard and AI Mentor. New quiz attempts are automatically stored in the same database.
 
