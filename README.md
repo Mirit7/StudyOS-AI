@@ -1,5 +1,5 @@
 
-# 🎓 StudyOS AI
+# StudyOS AI
 
 > **A Multi-Agent AI Learning Coach that generates personalized study plans, adaptive quizzes, performance analytics, long-term memory, and AI mentor feedback to help students learn more effectively.**
 
@@ -15,7 +15,7 @@
 
 ---
 
-## 🚀 Overview
+## Overview
 
 StudyOS AI is an intelligent learning assistant built using a **Multi-Agent Architecture**.
 
@@ -33,9 +33,9 @@ The system assists students by:
 The project demonstrates how multiple AI agents can collaborate to build a personalized educational experience.
 
 
-# ✨ Features
+#  Features
 
-## 📅 Personalized Study Planner
+##  Personalized Study Planner
 
 - AI-generated study roadmap
 - Exam-specific planning
@@ -44,7 +44,7 @@ The project demonstrates how multiple AI agents can collaborate to build a perso
 
 ---
 
-## 📝 AI Quiz Generator
+##  AI Quiz Generator
 
 - Dynamic question generation
 - Adjustable difficulty
@@ -53,7 +53,7 @@ The project demonstrates how multiple AI agents can collaborate to build a perso
 
 ---
 
-## 📊 Learning Analytics
+##  Learning Analytics
 
 - Quiz scoring
 - Accuracy calculation
@@ -63,7 +63,7 @@ The project demonstrates how multiple AI agents can collaborate to build a perso
 
 ---
 
-## 💾 Long-Term Memory
+##  Long-Term Memory
 
 - Stores every quiz attempt
 - Maintains learning history
@@ -72,7 +72,7 @@ The project demonstrates how multiple AI agents can collaborate to build a perso
 
 ---
 
-## 🤖 AI Mentor
+##  AI Mentor
 
 - Reviews historical performance
 - Detects learning patterns
@@ -80,7 +80,7 @@ The project demonstrates how multiple AI agents can collaborate to build a perso
 - Generates personalized study advice
 
 
-## 🏗️ Architecture
+##  Architecture
 
 <p align="center">
 <img src="screenshots/architecture.png" width="100%">
@@ -144,7 +144,7 @@ StudyOS-AI/
 <img src="screenshots/tachstack.png" width="75%">
 </p>
 
-## 🤖 Multi-Agent System
+##  Multi-Agent System
 
 StudyOS AI is powered by six specialized agents.
 
@@ -157,7 +157,7 @@ StudyOS AI is powered by six specialized agents.
 | Memory Agent | Stores learning history in SQLite |
 | Mentor Agent | Provides personalized learning guidance |
 
-### 🚀 Installation & Setup
+###  Installation & Setup
 
 Follow these steps to get StudyOS AI Agent running locally on your machine.
 
@@ -213,25 +213,25 @@ A complete walkthrough of StudyOS AI demonstrating:
 
 *(Add YouTube or Google Drive link here.)*
 
-## 📸 Dashboard
+##  Dashboard
 
 <p align="center">
 <img src="screenshots/dashboard.png" width="95%">
 </p>
 
-## 📝 Quiz Generation
+##  Quiz Generation
 
 <p align="center">
 <img src="screenshots/agent_generated_quiz.png" width="95%">
 </p>
 
-## 🤖 AI Mentor
+##  AI Mentor
 
 <p align="center">
-<img src="screenshots/aimentor_guide.png" width="95%">
+<img src="screenshots/aimontor_guide.png" width="95%">
 </p>
 
-## 📊 Analytics
+##  Analytics
 
 <p align="center">
 <img src="screenshots/agentreview.png" width="95%">
