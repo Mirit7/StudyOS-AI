@@ -132,10 +132,6 @@ StudyOS-AI/
 
 │
 
-├── utils/
-
-│
-
 ├── app.py
 
 ├── requirements.txt
@@ -144,15 +140,9 @@ StudyOS-AI/
 
 ### Resources
 
-| Category | Technology |
-|----------|------------|
-| Language | Python |
-| Framework | Streamlit |
-| LLM | Google Gemini |
-| Database | SQLite |
-| Architecture | Multi-Agent |
-| Visualization | Matplotlib |
-| Version Control | Git & GitHub |
+<p align="center">
+<img src="screenshots/tachstack.png" width="75%">
+</p>
 
 ## 🤖 Multi-Agent System
 
@@ -232,7 +222,7 @@ A complete walkthrough of StudyOS AI demonstrating:
 ## 📝 Quiz Generation
 
 <p align="center">
-<img src="screenshots/quiz.png" width="95%">
+<img src="screenshots/agent_generated_quiz.png" width="95%">
 </p>
 
 ## 🤖 AI Mentor
@@ -246,3 +236,5 @@ A complete walkthrough of StudyOS AI demonstrating:
 <p align="center">
 <img src="screenshots/agentreview.png" width="95%">
 </p>
+
+
