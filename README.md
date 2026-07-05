@@ -141,7 +141,7 @@ StudyOS-AI/
 ### Resources
 
 <p align="center">
-<img src="screenshots/tachstack.png" width="75%">
+<img src="screenshots/techstack.png" width="75%">
 </p>
 
 ##  Multi-Agent System
