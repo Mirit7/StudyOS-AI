@@ -210,8 +210,9 @@ A complete walkthrough of StudyOS AI demonstrating:
 - Memory
 - AI Mentor
 - Learning Dashboard
-
-*(Add YouTube or Google Drive link here.)*
+  
+Link here -
+https://youtu.be/788c_nxtfF8
 
 ##  Dashboard
 
